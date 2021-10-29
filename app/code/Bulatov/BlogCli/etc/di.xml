@@ -1,0 +1,14 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="blog-read" xsi:type="object">Bulatov\BlogCli\Console\Command\ReadBlogCommand</item>
+                <item name="blog-delete" xsi:type="object">Bulatov\BlogCli\Console\Command\DeleteBlogCommand</item>
+                <item name="blog-list" xsi:type="object">Bulatov\BlogCli\Console\Command\ListingBlogsCommand</item>
+                <item name="blog-update" xsi:type="object">Bulatov\BlogCli\Console\Command\UpdateBlogCommand</item>
+                <item name="blog-create" xsi:type="object">Bulatov\BlogCli\Console\Command\CreateBlogCommand</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

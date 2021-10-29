@@ -1,5 +1,5 @@
 {
-  "name": "bulatov/blog",
+  "name": "bulatov/blog-backend",
   "version": "1.0.0",
   "description": "N/A",
   "type": "magento2-module",
@@ -14,7 +14,7 @@
       "registration.php"
     ],
     "psr-4": {
-      "Bulatov\\Blog\\": ""
+      "Bulatov\\BlogBackend\\": ""
     }
   }
 }
