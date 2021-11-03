@@ -2,22 +2,25 @@
 
 namespace Bulatov\BlogFrontend\ViewModel;
 
-use Magento\Framework\App\Config\ScopeConfigInterface;
+use Bulatov\BlogCore\Api\BlogRepositoryInterface;
+use Bulatov\BlogCore\Api\Data\BlogModelInterface;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
-use Psr\Log\LoggerInterface;
 
 class BlogViewModel implements ArgumentInterface
 {
 
-    private ScopeConfigInterface $scopeConfig;
+    private BlogRepositoryInterface $blogRepository;
 
-    public function __construct(ScopeConfigInterface $scopeConfig)
+    public function __construct(BlogRepositoryInterface $blogRepository)
     {
-        $this->scopeConfig = $scopeConfig;
+        $this->blogRepository = $blogRepository;
     }
 
-    public function getBlogs(): string
+    /**
+     * @return BlogModelInterface[]
+     */
+    public function getBlogs(): array
     {
-        return (string) $this->scopeConfig->getValue('admin/url/use_custom');
+        return $this->blogRepository->getAll();
     }
 }
