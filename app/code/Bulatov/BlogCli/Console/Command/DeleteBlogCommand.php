@@ -2,6 +2,8 @@
 
 namespace Bulatov\BlogCli\Console\Command;
 
+use Bulatov\BlogCore\Api\BlogRepositoryInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -10,7 +12,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DeleteBlogCommand extends Command
 {
     const BLOG_NAME = 'blog_name';
+    private BlogRepositoryInterface $blogRepository;
 
+    public function __construct(BlogRepositoryInterface $blogRepository)
+    {
+        $this->blogRepository = $blogRepository;
+        parent::__construct();
+    }
     protected function configure(): void
     {
         $this->setName('blog:delete');
@@ -28,6 +36,14 @@ class DeleteBlogCommand extends Command
     private function deleteBlog(string $blogName, OutputInterface $output): void
     {
         $output->writeln('deleting ' . $blogName);
+        try {
+            $this->blogRepository->delete($blogName);
+        } catch (NoSuchEntityException $ex) {
+            $output->writeln($ex->getMessage());
+
+            return;
+        }
+
         $output->writeln($blogName . ' deleted');
     }
 

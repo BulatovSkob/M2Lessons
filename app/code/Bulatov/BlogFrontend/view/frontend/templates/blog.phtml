@@ -1,14 +1,13 @@
 <?php
 
 /**
- * @var Blog $block
+ * @var Template $block
+ * @var BlogViewModel $viewModel
  */
 
-use Bulatov\BlogFrontend\Block\Blog;
+use Bulatov\BlogFrontend\ViewModel\BlogViewModel;
+use Magento\Framework\View\Element\Template;
 
-$x = $block->getData('view_model');
-foreach ($block->getBlogs() as $blog) {
-    echo $blog . "\n";
-}
+$viewModel = $block->getData('view_model');
 
-echo $block->getData('view_model')->getBlogs();
+echo $viewModel->getBlogs();

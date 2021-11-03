@@ -1,0 +1,97 @@
+<?php declare(strict_types=1);
+
+namespace Bulatov\BlogCore\Model;
+
+use Bulatov\BlogCore\Api\BlogRepositoryInterface;
+use Bulatov\BlogCore\Api\Data\BlogModelInterface;
+use Bulatov\BlogCore\Model\ResourceModel\ResourceBlogModel;
+use Exception;
+use Magento\Framework\Exception\AlreadyExistsException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Bulatov\BlogCore\Model\ResourceModel\ResourceBlogModel\BlogCollectionFactory;
+
+class BlogRepository implements BlogRepositoryInterface
+{
+
+    private BlogModelFactory $blogFactory;
+    private ResourceBlogModel $resourceBlogModel;
+    private BlogCollectionFactory $blogCollectionFactory;
+
+    public function __construct(
+        BlogModelFactory $blogFactory,
+        ResourceBlogModel $resourceBlogModel,
+        BlogCollectionFactory $blogCollectionFactory
+    )
+    {
+        $this->blogFactory = $blogFactory;
+        $this->resourceBlogModel = $resourceBlogModel;
+        $this->blogCollectionFactory = $blogCollectionFactory;
+    }
+
+    /**
+     * @throws AlreadyExistsException
+     */
+    public function create(string $name, string $description = null): void
+    {
+        $blog = $this->blogFactory->create();
+        $blog->setName($name);
+        $description === null ?: $blog->setDescription($description);
+        $this->resourceBlogModel->save($blog);
+    }
+
+    /**
+     * @throws NoSuchEntityException
+     * @throws Exception
+     */
+    public function delete(string $name): void
+    {
+        $blog = $this->blogFactory->create();
+        $this->resourceBlogModel->load($blog, $name, 'name');
+        if ($blog->getId() === null) {
+            throw new NoSuchEntityException(__('blog with name ' . $name . ' doenst\'t exist'));
+        }
+
+        $this->resourceBlogModel->delete($blog);
+    }
+
+    /**
+     * @return BlogModelInterface[]
+     */
+    public function getAll(): array
+    {
+        $collection = $this->blogCollectionFactory->create();
+
+        return $collection->getItems();
+    }
+
+    /**
+     * @throws NoSuchEntityException
+     * @throws AlreadyExistsException
+     */
+    public function update(string $oldName, string $newName = null, string $description = null): void
+    {
+        $blog = $this->blogFactory->create();
+        $this->resourceBlogModel->load($blog, $oldName, 'name');
+        if ($blog->getId() === null) {
+            throw new NoSuchEntityException(__('blog with name ' . $oldName . ' doenst\'t exist'));
+        }
+
+        $newName === null ?: $blog->setName($newName);
+        $description === null ?: $blog->setDescription($description === '' ? null : $description);
+        $this->resourceBlogModel->save($blog);
+    }
+
+    /**
+     * @throws NoSuchEntityException
+     */
+    public function getByName(string $name): BlogModelInterface
+    {
+        $blog = $this->blogFactory->create();
+        $this->resourceBlogModel->load($blog, $name, 'name');
+        if ($blog->getId() === null) {
+            throw new NoSuchEntityException(__('blog with name ' . $name . ' doenst\'t exist'));
+        }
+
+        return $blog;
+    }
+}

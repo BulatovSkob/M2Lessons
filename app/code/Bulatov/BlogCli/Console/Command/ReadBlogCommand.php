@@ -2,6 +2,8 @@
 
 namespace Bulatov\BlogCli\Console\Command;
 
+use Bulatov\BlogCore\Api\BlogRepositoryInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -10,6 +12,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ReadBlogCommand extends Command
 {
     const BLOG_NAME = 'blog_name';
+    private BlogRepositoryInterface $blogRepository;
+
+    public function __construct(BlogRepositoryInterface $blogRepository)
+    {
+        $this->blogRepository = $blogRepository;
+        parent::__construct();
+    }
 
     protected function configure(): void
     {
@@ -28,7 +37,15 @@ class ReadBlogCommand extends Command
     private function readBlog(string $blogName, OutputInterface $output): void
     {
         $output->writeln('start reading ' . $blogName . ' blog');
-        $output->writeln('Why magento2 does not allow me to make class final? :)');
+        try {
+            $blog = $this->blogRepository->getByName($blogName);
+        } catch (NoSuchEntityException $ex) {
+            $output->writeln($ex->getMessage());
+
+            return;
+        }
+
+        $output->writeln($blog->getDescription());
     }
 
     private function showError($output): void
