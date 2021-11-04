@@ -21,10 +21,8 @@ class BlogRouter implements RouterInterface
 
     public function match(RequestInterface $request): ?ActionInterface
     {
-        if ($request->getPathInfo() === '/not_a_blog/example') {
-            return $this->actionFactory->create(ActionExample::class);
-        }
-
-        return null;
+        return $request->getPathInfo() === '/not_a_blog/example'
+            ? $this->actionFactory->create(ActionExample::class)
+            : null;
     }
 }
