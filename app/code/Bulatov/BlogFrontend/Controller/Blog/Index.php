@@ -19,4 +19,9 @@ class Index implements ActionInterface
     {
         return $this->pageFactory->create();
     }
+
+    public function example(): ResultInterface
+    {
+        return $this->pageFactory->create();
+    }
 }

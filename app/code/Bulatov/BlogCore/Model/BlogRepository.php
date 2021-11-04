@@ -28,15 +28,22 @@ class BlogRepository implements BlogRepositoryInterface
         $this->blogCollectionFactory = $blogCollectionFactory;
     }
 
-    /**
-     * @throws AlreadyExistsException
-     */
-    public function create(string $name, string $description = null): void
+
+    public function create(string $name, string $description = null): BlogModelInterface
     {
         $blog = $this->blogFactory->create();
         $blog->setName($name);
         $description === null ?: $blog->setDescription($description);
-        $this->resourceBlogModel->save($blog);
+
+        return $blog;
+    }
+
+    /**
+     * @throws AlreadyExistsException
+     */
+    public function save(BlogModelInterface $blogModel): void
+    {
+        $this->resourceBlogModel->save($blogModel);
     }
 
     /**

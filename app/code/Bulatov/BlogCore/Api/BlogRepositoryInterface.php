@@ -8,10 +8,12 @@ use Magento\Framework\Exception\NoSuchEntityException;
 
 interface BlogRepositoryInterface
 {
+    public function create(string $name, string $description = null): BlogModelInterface;
+
     /**
      * @throws AlreadyExistsException
      */
-    public function create(string $name, string $description = null): void;
+    public function save(BlogModelInterface $blogModel): void;
 
     /**
      * @throws NoSuchEntityException

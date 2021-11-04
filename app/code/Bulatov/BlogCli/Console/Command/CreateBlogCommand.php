@@ -40,8 +40,9 @@ class CreateBlogCommand extends Command
     private function createBlog(string $blogName, OutputInterface $output, ?string $blogDescription): void
     {
         $output->writeln('creating ' . $blogName);
+        $blog = $this->blogRepository->create($blogName, $blogDescription);
         try {
-            $this->blogRepository->create($blogName, $blogDescription);
+            $this->blogRepository->save($blog);
         } catch (AlreadyExistsException $ex) {
             $output->writeln($blogName . ' name is already exist');
 
