@@ -1,0 +1,14 @@
+type Query {
+    blogs: Blogs @resolver(class: "Bulatov\\BlogGraphQL\\GraphQl\\Resolver\\AllBlogs")
+    blog(name: String): Blog @resolver(class: "Bulatov\\BlogGraphQL\\GraphQl\\Resolver\\SimpleBlog")
+}
+
+type Blogs {
+    items: [Blog]
+}
+
+type Blog {
+    id: Int
+    name: String
+    description: String
+}
