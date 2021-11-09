@@ -50,12 +50,12 @@ class BlogRepository implements BlogRepositoryInterface
      * @throws NoSuchEntityException
      * @throws Exception
      */
-    public function delete(string $name): void
+    public function delete(int $id): void
     {
         $blog = $this->blogFactory->create();
-        $this->resourceBlogModel->load($blog, $name, 'name');
+        $this->resourceBlogModel->load($blog, $id, 'id');
         if ($blog->getId() === null) {
-            throw new NoSuchEntityException(__('blog with name ' . $name . ' doenst\'t exist'));
+            throw new NoSuchEntityException(__('blog with id ' . $id . ' doenst\'t exist'));
         }
 
         $this->resourceBlogModel->delete($blog);
@@ -97,6 +97,17 @@ class BlogRepository implements BlogRepositoryInterface
         $this->resourceBlogModel->load($blog, $name, 'name');
         if ($blog->getId() === null) {
             throw new NoSuchEntityException(__('blog with name ' . $name . ' doenst\'t exist'));
+        }
+
+        return $blog;
+    }
+
+    public function getById(int $id): BlogModelInterface
+    {
+        $blog = $this->blogFactory->create();
+        $this->resourceBlogModel->load($blog, $id, 'id');
+        if ($blog->getId() === null) {
+            throw new NoSuchEntityException(__('blog with id ' . $id . ' doenst\'t exist'));
         }
 
         return $blog;

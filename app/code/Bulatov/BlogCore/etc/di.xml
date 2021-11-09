@@ -1,3 +1,4 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Bulatov\BlogCore\Api\BlogRepositoryInterface" type="Bulatov\BlogCore\Model\BlogRepository"/>
+    <preference for="Bulatov\BlogCore\Api\Data\BlogCollectionInterface" type="Bulatov\BlogCore\Model\ResourceModel\ResourceBlogModel\BlogCollection"/>
 </config>

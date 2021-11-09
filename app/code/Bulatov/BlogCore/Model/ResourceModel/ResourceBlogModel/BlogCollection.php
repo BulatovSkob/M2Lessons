@@ -2,11 +2,12 @@
 
 namespace Bulatov\BlogCore\Model\ResourceModel\ResourceBlogModel;
 
+use Bulatov\BlogCore\Api\Data\BlogCollectionInterface;
 use Bulatov\BlogCore\Model\BlogModel;
 use Bulatov\BlogCore\Model\ResourceModel\ResourceBlogModel;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 
-class BlogCollection extends AbstractCollection
+class BlogCollection extends AbstractCollection implements BlogCollectionInterface
 {
     protected function _construct()
     {

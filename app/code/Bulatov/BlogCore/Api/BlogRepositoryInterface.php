@@ -18,7 +18,7 @@ interface BlogRepositoryInterface
     /**
      * @throws NoSuchEntityException
      */
-    public function delete(string $name): void;
+    public function delete(int $id): void;
 
     /**
      * @return BlogModelInterface[]
@@ -34,4 +34,9 @@ interface BlogRepositoryInterface
      * @throws NoSuchEntityException
      */
     public function getByName(string $name): BlogModelInterface;
+
+    /**
+     * @throws NoSuchEntityException
+     */
+    public function getById(int $id): BlogModelInterface;
 }
